@@ -1,0 +1,825 @@
+/*
+ * Author       : abenanthan.p.2024.cse_raj624
+ * Generated on : 08-Oct-2026 22:43:14
+ * Version      : 1.0
+ */
+ application "Cloud Infrastructure Management"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "Asia/Kolkata"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form Cloud_Projects
+		{
+			displayname = "Cloud Projects"
+			success message = "Cloud Project Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Project_Name
+			(
+    			type = text
+				displayname = "Project Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Departments
+			(
+				type = picklist	
+				values  = Departments.ID
+    			displayformat = [Department_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Lead_Engineer_Name
+			(
+    			type = text
+				displayname = "Lead Engineer Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			E_mail
+			(
+    			type = email
+				displayname = "E-mail"
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Cloud_Provider
+			(
+				type = picklist
+				displayname = "Cloud Provider"
+				maxchar = 100
+				values = {"AWS","Microsoft Azure","Google Cloud"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Allocated_Project_Budget
+			(
+				type = decimal
+				displayname = "Allocated Project Budget"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Project_Status
+			(
+				type = picklist
+				displayname = "Project Status"
+				maxchar = 100
+				values = {"Active","Frozen / Overbudget"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Cloud_Resource_Registry
+		{
+			displayname = "Cloud Resource Registry"
+			success message = "Cloud Resource Registry Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Resource_ID
+			(
+    			type = text
+				displayname = "Resource ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Cloud_Projects
+			(
+				type = picklist	
+				displayname = "Cloud Projects"
+				values  = Cloud_Projects.ID
+    			displayformat = [Project_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Resource_Type
+			(
+				type = picklist
+				displayname = "Resource Type"
+				maxchar = 100
+				values = {"EC2 Compute Instance","S3 Storage Bucket","RDS Database","Kubernetes Cluster"}
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Instance_Size_Tier
+			(
+				type = picklist
+				displayname = "Instance Size Tier"
+				maxchar = 100
+				values = {"t3.micro","t3.large","m5.2xlarge","db.r5.xlarge"}
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Hourly_Cost
+			(
+				type = decimal
+				displayname = "Hourly Cost"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Idle_CPU_Utilization
+			(
+				type = decimal
+				displayname = "Idle CPU Utilization"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Resource_Lifecycle_Status
+			(
+				type = picklist
+				displayname = "Resource Lifecycle Status"
+				maxchar = 100
+				values = {"Running","Idle","Terminated"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Departments
+		{
+			success message = "Department Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Department_Name
+			(
+    			type = text
+				displayname = "Department Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Department_Head
+			(
+    			type = text
+				displayname = "Department Head"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			E_mail
+			(
+    			type = email
+				displayname = "E-mail"
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Overall_Quarterly_Budget
+			(
+				type = decimal
+				displayname = "Overall Quarterly Budget "
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		default list All_Departments
+		{
+			displayName = "All Departments"
+			show all rows from Departments    
+			(
+				Department_Name as "Department Name"
+				Department_Head as "Department Head"
+				E_mail as "E-mail"
+				Overall_Quarterly_Budget as "Overall Quarterly Budget "
+			)
+		}
+		default list All_Cloud_Projects
+		{
+			displayName = "All Cloud Projects"
+			show all rows from Cloud_Projects    
+			(
+				Project_Name as "Project Name"
+				Departments
+				Lead_Engineer_Name as "Lead Engineer Name"
+				E_mail as "E-mail"
+				Cloud_Provider as "Cloud Provider"
+				Allocated_Project_Budget as "Allocated Project Budget"
+				Project_Status as "Project Status"
+			)
+		}
+		default list All_Cloud_Resource_Registries
+		{
+			displayName = "All Cloud Resource Registries"
+			show all rows from Cloud_Resource_Registry    
+			(
+				Resource_ID as "Resource ID"
+				Cloud_Projects as "Cloud Projects"
+				Resource_Type as "Resource Type"
+				Instance_Size_Tier as "Instance Size Tier"
+				Hourly_Cost as "Hourly Cost"
+				Idle_CPU_Utilization as "Idle CPU Utilization"
+				Resource_Lifecycle_Status as "Resource Lifecycle Status"
+			)
+		}
+	}
+
+
+
+
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+	customize
+	{
+		icon
+		{
+			text = "CIM"
+			background color = "theme"
+			foreground color = "#ffffff"
+		}
+	}
+
+	web
+	{
+		forms
+		{
+			form Cloud_Projects
+			{
+				label placement = left
+			}
+			form Cloud_Resource_Registry
+			{
+				label placement = left
+			}
+			form Departments
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report All_Departments
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Department_Name as "Department Name"
+								Department_Head as "Department Head"
+								E_mail as "E-mail"
+								Overall_Quarterly_Budget as "Overall Quarterly Budget "
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Department_Name as "Department Name"
+								Department_Head as "Department Head"
+								E_mail as "E-mail"
+								Overall_Quarterly_Budget as "Overall Quarterly Budget "
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Cloud_Projects
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Project_Name as "Project Name"
+								Departments
+								Lead_Engineer_Name as "Lead Engineer Name"
+								E_mail as "E-mail"
+								Cloud_Provider as "Cloud Provider"
+								Allocated_Project_Budget as "Allocated Project Budget"
+								Project_Status as "Project Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Project_Name as "Project Name"
+								Departments
+								Lead_Engineer_Name as "Lead Engineer Name"
+								E_mail as "E-mail"
+								Cloud_Provider as "Cloud Provider"
+								Allocated_Project_Budget as "Allocated Project Budget"
+								Project_Status as "Project Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Cloud_Resource_Registries
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Resource_ID as "Resource ID"
+								Cloud_Projects as "Cloud Projects"
+								Resource_Type as "Resource Type"
+								Instance_Size_Tier as "Instance Size Tier"
+								Hourly_Cost as "Hourly Cost"
+								Idle_CPU_Utilization as "Idle CPU Utilization"
+								Resource_Lifecycle_Status as "Resource Lifecycle Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Resource_ID as "Resource ID"
+								Cloud_Projects as "Cloud Projects"
+								Resource_Type as "Resource Type"
+								Instance_Size_Tier as "Instance Size Tier"
+								Hourly_Cost as "Hourly Cost"
+								Idle_CPU_Utilization as "Idle CPU Utilization"
+								Resource_Lifecycle_Status as "Resource Lifecycle Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Departments
+				{
+					displayname = "Departments"
+					icon = "business-hierarchy-53"
+					form  Departments
+					{
+						icon = "business-hierarchy-53"
+					}
+					report All_Departments
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+				section Cloud_Projects
+				{
+					displayname = "Cloud Projects"
+					icon = "arrows-3-cloud-refresh"
+					form  Cloud_Projects
+					{
+						icon = "arrows-3-cloud-refresh"
+					}
+					report All_Cloud_Projects
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Cloud_Resource_Registries
+				{
+					displayname = "Cloud Resource Registries"
+					icon = "arrows-3-cloud-refresh"
+					form  Cloud_Resource_Registry
+					{
+						icon = "tech-2-l-search"
+					}
+					report All_Cloud_Resource_Registries
+					{
+						icon = "tech-desktop"
+					}
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = outline
+				}
+			}
+		}
+		customize
+		{
+			font = "lato"
+			color options
+			{
+				color = "11"
+			}
+			logo
+			{
+				preference = "app_icon"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		forms
+		{
+			form Cloud_Projects
+			{
+				label placement = auto
+			}
+			form Cloud_Resource_Registry
+			{
+				label placement = auto
+			}
+			form Departments
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "1"
+			color options
+			{
+				color = chryslerpurple
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		forms
+		{
+			form Cloud_Projects
+			{
+				label placement = auto
+			}
+			form Cloud_Resource_Registry
+			{
+				label placement = auto
+			}
+			form Departments
+			{
+				label placement = auto
+			}
+		}
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "1"
+			color options
+			{
+				color = darkgrey
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
