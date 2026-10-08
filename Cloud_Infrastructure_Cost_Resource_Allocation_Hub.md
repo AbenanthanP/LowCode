@@ -1,13 +1,6 @@
-# Academic Project Proposal & Technical Specification
 
-**Project Title:** Cloud Infrastructure Cost & Resource Allocation Hub (FinOps Engine)  
-**Domain:** Cloud Computing, FinOps, Infrastructure Governance & REST API Management  
-**Target Platform:** Zoho Creator (Low-Code Application Development)  
-**Primary Scripting Language:** Deluge Scripting  
 
----
-
-## 1. Executive Summary & Problem Statement
+## 1. Executive Summary
 
 In modern software engineering, development teams frequently spin up cloud virtual machines, databases, and storage buckets across cloud providers (AWS, GCP, Azure) for testing and staging environments. However, developers often forget to terminate or downsize these instances once testing ends. This leads to **cloud sprawl** and significant budget overruns due to idle infrastructure.
 
