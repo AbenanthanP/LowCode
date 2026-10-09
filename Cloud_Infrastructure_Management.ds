@@ -1,6 +1,6 @@
 /*
  * Author       : abenanthan.p.2024.cse_raj624
- * Generated on : 08-Oct-2026 22:43:14
+ * Generated on : 09-Oct-2026 08:53:51
  * Version      : 1.0
  */
  application "Cloud Infrastructure Management"
@@ -30,7 +30,7 @@
 	 			column = 1   
 				width = medium
 			)
-			Departments
+			Department
 			(
 				type = picklist	
 				values  = Departments.ID
@@ -131,10 +131,10 @@
 	 			column = 1   
 				width = medium
 			)
-			Cloud_Projects
+			Project_Name
 			(
 				type = picklist	
-				displayname = "Cloud Projects"
+				displayname = "Project Name"
 				values  = Cloud_Projects.ID
     			displayformat = [Project_Name]
 				sortorder = ascending
@@ -186,6 +186,117 @@
 				displayname = "Resource Lifecycle Status"
 				maxchar = 100
 				values = {"Running","Idle","Terminated"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form Cloud_Resource_Requisition
+		{
+			displayname = "Cloud Resource Requisition"
+			success message = "Cloud Resource Requisition Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Requisition_ID
+			(
+    			type = autonumber
+				displayname = "Requisition ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Project_Name
+			(
+				type = picklist	
+				displayname = "Project Name"
+				values  = Cloud_Projects.ID
+    			displayformat = [Project_Name]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Name_Of_Requested_Person
+			(
+    			type = text
+				displayname = "Name Of Requested Person "
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			E_mail
+			(
+    			type = email
+				displayname = "E-mail"
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Requested_Instance_Tier
+			(
+				type = picklist
+				displayname = "Requested Instance Tier"
+				maxchar = 100
+				values = {"t3.micro","t3.large","m5.2xlarge"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Justification
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Estimated_Monthly_Cost
+			(
+				type = decimal
+				displayname = "Estimated Monthly Cost"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Approval_Status
+			(
+				type = picklist
+				displayname = "Approval Status"
+				maxchar = 100
+				values = {"Approved","Pending","Rejected"}
 	 			row = 1
 	 			column = 1   
 				width = medium
@@ -286,6 +397,99 @@
 				}
 			}
 		}
+		form Resource_Cleanup_Logs
+		{
+			displayname = "Resource Cleanup Logs"
+			success message = "Resource Cleanup Log Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Log_ID
+			(
+    			type = autonumber
+				displayname = "Log ID"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Resource_Name
+			(
+				type = picklist	
+				displayname = "Resource Name"
+				values  = Cloud_Resource_Registry.ID
+    			displayformat = [Resource_ID]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Project_Name
+			(
+    			type = text
+				displayname = "Project Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Wasted_Dollars_Saved
+			(
+				type = decimal
+				displayname = "Wasted Dollars Saved"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Action_Taken
+			(
+				type = picklist
+				displayname = "Action Taken"
+				maxchar = 100
+				values = {"Auto-Stopped Via API","Developer Notified","Manually Retained"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Execution_Time_Stamp
+			(
+    			type = datetime
+				displayname = "Execution Time Stamp"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
 	}
 	reports
 	{
@@ -306,7 +510,7 @@
 			show all rows from Cloud_Projects    
 			(
 				Project_Name as "Project Name"
-				Departments
+				Department
 				Lead_Engineer_Name as "Lead Engineer Name"
 				E_mail as "E-mail"
 				Cloud_Provider as "Cloud Provider"
@@ -320,12 +524,40 @@
 			show all rows from Cloud_Resource_Registry    
 			(
 				Resource_ID as "Resource ID"
-				Cloud_Projects as "Cloud Projects"
+				Project_Name as "Project Name"
 				Resource_Type as "Resource Type"
 				Instance_Size_Tier as "Instance Size Tier"
 				Hourly_Cost as "Hourly Cost"
 				Idle_CPU_Utilization as "Idle CPU Utilization"
 				Resource_Lifecycle_Status as "Resource Lifecycle Status"
+			)
+		}
+		default list All_Cloud_Resource_Requisitions
+		{
+			displayName = "All Cloud Resource Requisitions"
+			show all rows from Cloud_Resource_Requisition    
+			(
+				Requisition_ID as "Requisition ID"
+				Project_Name as "Project Name"
+				Name_Of_Requested_Person as "Name Of Requested Person "
+				E_mail as "E-mail"
+				Requested_Instance_Tier as "Requested Instance Tier"
+				Justification
+				Estimated_Monthly_Cost as "Estimated Monthly Cost"
+				Approval_Status as "Approval Status"
+			)
+		}
+		default list All_Resource_Cleanup_Logs
+		{
+			displayName = "All Resource Cleanup Logs"
+			show all rows from Resource_Cleanup_Logs    
+			(
+				Log_ID as "Log ID"
+				Resource_Name as "Resource Name"
+				Project_Name as "Project Name"
+				Wasted_Dollars_Saved as "Wasted Dollars Saved"
+				Action_Taken as "Action Taken"
+				Execution_Time_Stamp as "Execution Time Stamp"
 			)
 		}
 	}
@@ -401,7 +633,15 @@
 			{
 				label placement = left
 			}
+			form Cloud_Resource_Requisition
+			{
+				label placement = left
+			}
 			form Departments
+			{
+				label placement = left
+			}
+			form Resource_Cleanup_Logs
 			{
 				label placement = left
 			}
@@ -493,7 +733,7 @@
 							fields
 							(
 								Project_Name as "Project Name"
-								Departments
+								Department
 								Lead_Engineer_Name as "Lead Engineer Name"
 								E_mail as "E-mail"
 								Cloud_Provider as "Cloud Provider"
@@ -542,7 +782,7 @@
 							fields
 							(
 								Project_Name as "Project Name"
-								Departments
+								Department
 								Lead_Engineer_Name as "Lead Engineer Name"
 								E_mail as "E-mail"
 								Cloud_Provider as "Cloud Provider"
@@ -573,7 +813,7 @@
 							fields
 							(
 								Resource_ID as "Resource ID"
-								Cloud_Projects as "Cloud Projects"
+								Project_Name as "Project Name"
 								Resource_Type as "Resource Type"
 								Instance_Size_Tier as "Instance Size Tier"
 								Hourly_Cost as "Hourly Cost"
@@ -622,12 +862,171 @@
 							fields
 							(
 								Resource_ID as "Resource ID"
-								Cloud_Projects as "Cloud Projects"
+								Project_Name as "Project Name"
 								Resource_Type as "Resource Type"
 								Instance_Size_Tier as "Instance Size Tier"
 								Hourly_Cost as "Hourly Cost"
 								Idle_CPU_Utilization as "Idle CPU Utilization"
 								Resource_Lifecycle_Status as "Resource Lifecycle Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Cloud_Resource_Requisitions
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Requisition_ID as "Requisition ID"
+								Project_Name as "Project Name"
+								Name_Of_Requested_Person as "Name Of Requested Person "
+								E_mail as "E-mail"
+								Requested_Instance_Tier as "Requested Instance Tier"
+								Justification
+								Estimated_Monthly_Cost as "Estimated Monthly Cost"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Requisition_ID as "Requisition ID"
+								Project_Name as "Project Name"
+								Name_Of_Requested_Person as "Name Of Requested Person "
+								E_mail as "E-mail"
+								Requested_Instance_Tier as "Requested Instance Tier"
+								Justification
+								Estimated_Monthly_Cost as "Estimated Monthly Cost"
+								Approval_Status as "Approval Status"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						)
+				)
+			}
+			report All_Resource_Cleanup_Logs
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Log_ID as "Log ID"
+								Resource_Name as "Resource Name"
+								Project_Name as "Project Name"
+								Wasted_Dollars_Saved as "Wasted Dollars Saved"
+								Action_Taken as "Action Taken"
+								Execution_Time_Stamp as "Execution Time Stamp"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Delete   	   
+							Duplicate   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								Log_ID as "Log ID"
+								Resource_Name as "Resource Name"
+								Project_Name as "Project Name"
+								Wasted_Dollars_Saved as "Wasted Dollars Saved"
+								Action_Taken as "Action Taken"
+								Execution_Time_Stamp as "Execution Time Stamp"
 							)
 						)
 					)
@@ -731,6 +1130,32 @@
 						icon = "tech-desktop"
 					}
 				}
+				section Cloud_Resource_Requisitions
+				{
+					displayname = "Cloud Resource Requisitions"
+					icon = "arrows-3-cloud-refresh"
+					form  Cloud_Resource_Requisition
+					{
+						icon = "arrows-3-cloud-refresh"
+					}
+					report All_Cloud_Resource_Requisitions
+					{
+						icon = "tech-desktop"
+					}
+				}
+				section Resource_Cleanup_Logs
+				{
+					displayname = "Resource Cleanup Logs"
+					icon = "envir-waste"
+					form  Resource_Cleanup_Logs
+					{
+						icon = "envir-waste"
+					}
+					report All_Resource_Cleanup_Logs
+					{
+						icon = "tech-desktop"
+					}
+				}
 			}
 			preference
 			{
@@ -766,7 +1191,15 @@
 			{
 				label placement = auto
 			}
+			form Cloud_Resource_Requisition
+			{
+				label placement = auto
+			}
 			form Departments
+			{
+				label placement = auto
+			}
+			form Resource_Cleanup_Logs
 			{
 				label placement = auto
 			}
@@ -798,7 +1231,15 @@
 			{
 				label placement = auto
 			}
+			form Cloud_Resource_Requisition
+			{
+				label placement = auto
+			}
 			form Departments
+			{
+				label placement = auto
+			}
+			form Resource_Cleanup_Logs
 			{
 				label placement = auto
 			}
