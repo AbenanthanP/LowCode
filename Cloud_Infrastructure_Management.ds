@@ -1,6 +1,6 @@
 /*
  * Author       : abenanthan.p.2024.cse_raj624
- * Generated on : 09-Oct-2026 08:53:51
+ * Generated on : 09-Oct-2026 09:31:13
  * Version      : 1.0
  */
  application "Cloud Infrastructure Management"
@@ -565,6 +565,198 @@
 
 
 
+		workflow
+		{
+		form
+		{
+			Dynamic_Hourly_Cost_Calcu as "Dynamic Hourly Cost Calculation"
+			{
+				type =  form
+				form = Cloud_Resource_Registry
+
+				record event = on add or edit
+
+				on user input of Instance_Size_Tier
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Map instance size tier to hourly pricing rate
+										if(input.Instance_Size_Tier == "t3.micro")
+										{
+											input.Hourly_Cost = 0.0104;
+										}
+										else if(input.Instance_Size_Tier == "t3.large")
+										{
+											input.Hourly_Cost = 0.0832;
+										}
+										else if(input.Instance_Size_Tier == "m5.2xlarge")
+										{
+											input.Hourly_Cost = 0.3840;
+										}
+										else if(input.Instance_Size_Tier == "db.r5.xlarge")
+										{
+											input.Hourly_Cost = 0.4800;
+										}
+						)
+					}
+				}
+
+			}
+			Dynamic_Requisition_Cost_ as "Dynamic Requisition Cost Calculation"
+			{
+				type =  form
+				form = Cloud_Resource_Requisition
+
+				record event = on add or edit
+
+				on user input of Requested_Instance_Tier
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											hourlyRate = 0.0;
+										if(input.Requested_Instance_Tier == "t3.micro")
+										{
+											hourlyRate = 0.0104;
+										}
+										else if(input.Requested_Instance_Tier == "t3.large")
+										{
+											hourlyRate = 0.0832;
+										}
+										else if(input.Requested_Instance_Tier == "m5.2xlarge")
+										{
+											hourlyRate = 0.3840;
+										}
+										// Compute projected monthly cost (Assuming 720 operating hours / month)
+										input.Estimated_Monthly_Cost = hourlyRate * 720;
+						)
+					}
+				}
+
+			}
+			Pre_Validation_Budget_Con as "Pre-Validation Budget Control"
+			{
+				type =  form
+				form = Cloud_Resource_Requisition
+
+				record event = on add or edit
+
+				on validate
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Retrieve parent project record details
+										projectRec = Cloud_Projects[ID == input.Project_Name];
+										if(projectRec != null)
+										{
+											// Check if the requested cost exceeds the project budget
+											if(input.Estimated_Monthly_Cost > projectRec.Allocated_Project_Budget)
+											{
+												alert "Budget Violation: Requested instance estimated cost ($" + input.Estimated_Monthly_Cost.round(2) + ") exceeds total project budget ($" + projectRec.Allocated_Project_Budget + ").";
+												cancel submit;
+											}
+										}
+						)
+					}
+				}
+
+			}
+			Auto_Provision_Resource_o as "Auto-Provision Resource on Approval"
+			{
+				type =  form
+				form = Cloud_Resource_Requisition
+
+				record event = on add or edit
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Approval_Status == "Approved")
+										{
+											hRate = 0.0;
+											if(input.Requested_Instance_Tier == "t3.micro")
+											{
+												hRate = 0.0104;
+											}
+											else if(input.Requested_Instance_Tier == "t3.large")
+											{
+												hRate = 0.0832;
+											}
+											else if(input.Requested_Instance_Tier == "m5.2xlarge")
+											{
+												hRate = 0.3840;
+											}
+											resID = "i-auto-" + input.Requisition_ID;
+											insert into Cloud_Resource_Registry
+											[
+												Resource_ID=resID
+												Project_Name=input.Project_Name
+												Resource_Type="EC2 Compute Instance"
+												Instance_Size_Tier=input.Requested_Instance_Tier
+												Hourly_Cost=hRate
+												Idle_CPU_Utilization=100.0
+												Resource_Lifecycle_Status="Running"
+												Added_User=zoho.loginuser
+											]
+										}
+						)
+					}
+				}
+
+			}
+		}
+
+		schedule
+		{
+			Weekly_Idle_Resource_Swee as "Weekly Idle Resource Sweeper"
+			{
+				type =  schedule
+				start = "2026-10-09 20:00:00"
+				frequency = weekly
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						// Fetch all active resources with CPU utilization below 5%
+										idleAssets = Cloud_Resource_Registry[Idle_CPU_Utilization < 5.0 && Resource_Lifecycle_Status == "Running"];
+										for each  asset in idleAssets
+										{
+											// Calculate estimated waste saved (Assuming 120 idle hours logged)
+											wasteSaved = asset.Hourly_Cost * 120;
+											// Update asset lifecycle status
+											asset.Resource_Lifecycle_Status="Idle";
+											// Create an audit entry in Resource_Cleanup_Logs without commas
+											insert into Resource_Cleanup_Logs
+											[
+												Resource_Name=asset.ID
+												Project_Name=asset.Project_Name
+												Wasted_Dollars_Saved=wasteSaved
+												Action_Taken="Developer Notified"
+												Execution_Time_Stamp=zoho.currenttime
+												Added_User=zoho.loginuser
+											]
+										}
+					)
+					}
+				}
+			}
+		}
+
+
+
+
+	}
 	share_settings
 	{
 			"Read"
